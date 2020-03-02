@@ -1,3 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-color: rgb(49, 47, 47);
+  color: cornsilk;
+  font-size: 18px;
+  width: 100%;
+  margin: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+}
 /*game */
 .board {
   margin: auto;
