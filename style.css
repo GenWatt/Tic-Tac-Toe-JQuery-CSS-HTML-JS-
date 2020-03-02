@@ -21,7 +21,7 @@ button {
 }
 /*game */
 .board {
-  margin: auto;
+  margin: auto auto;
   width: 800px;
   height: 800px;
   position: relative;
