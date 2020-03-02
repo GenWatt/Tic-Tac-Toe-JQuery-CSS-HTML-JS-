@@ -9,55 +9,15 @@
 </head>
 
 <body>
-  <section class="animation-section">
-    <div class="input-section">
-      <label for="row-value" class="block-label">
-        <span class="placeholder">Liczba rzędów</span>
-        <input type="number" id="row-value" class="block-inputs" />
-      </label>
-      <label for="column-value" class="block-label">
-        <span class="placeholder">Liczba kolumn</span>
-        <input type="number" id="column-value" class="block-inputs" />
-      </label>
-    </div>
-
-    <button id="set-grid" class="blocks-btn">
-      Click
-      <span class="line-bottom"></span>
-      <span class="line-right"></span>
-    </button>
-    <button id="random-animation-btn" class="blocks-btn">Random</button>
-
-    <div class="block-conteiner"></div>
-  </section>
-  <section>
-    <div class="conteiner">
-      <div class="wrapper">
-        <label for="how-many" class="multi-multi-label">Ilość skreśleń</label>
-        <input type="number" id="how-many" class="multi-multi-input" />
-      </div>
-
-      <div class="wrapper">
-        <label for="highest" class="multi-multi-label">Ilość liczb które biorą udział w losowaniu</label>
-        <input type="number" id="highest-number" class="multi-multi-input" />
-      </div>
-    </div>
-
-    <button id="show-count">Random</button>
-
-    <div class="ball-conteiner"></div>
-  </section>
-
-  <section class="tic-tac-toe">
+ <section class="tic-tac-toe">
     <div class="board">
-      <button class="back-btn" id="back-btn" style="position: absolute; top: -55px;"><i
-          class="fas fa-arrow-left"></i></button>
+      <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
       <div class="start-game-view">
         <h2>Tic Tac Toe!</h2>
         <div class="game-mode-options">
           <h3>Wybierz rozmiar planszy:</h3>
           <div class="options">
-            <button class="game-mode-options-btn" value="3">3x3</button>
+            <button class="game-mode-options-btn game-mode-options-btn-active" value="3">3x3</button>
             <button class="game-mode-options-btn" value="5">5x5</button>
           </div>
         </div>
@@ -67,11 +27,11 @@
       <div class="tiles-conteiner"></div>
 
       <div class="result">
-        <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
         <h2>Koniec Gry</h2>
         <div class="end-game-result"></div>
 
-        <button class="next-game">Nowa Gra</button>
+        <button class="result-btns next-game">Nowa Gra</button>
+        <button class="result-btns reset-points">Resetuj punkty</button>
       </div>
     </div>
   </section>
