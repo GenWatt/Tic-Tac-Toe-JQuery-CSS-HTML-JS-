@@ -1,136 +1,3 @@
-const blockConteiner = $(".block-conteiner");
-const inputColumn = $("#column-value");
-const inputRow = $("#row-value");
-let columns;
-let rows;
-let numberBlocks;
-const numberArray = [];
-
-$("#set-grid").click(() => {
-  columns = inputColumn.val();
-  rows = inputRow.val();
-
-  blockConteiner.text("");
-  numberBlocks = columns * rows;
-
-  blockConteiner.css({
-    gridTemplateColumns: `repeat(${columns},20px)`,
-    gridTemplateRows: `repeat(${rows},20px)`
-  });
-  const duration = 20;
-
-  for (let i = 1; i <= numberBlocks; i++) {
-    const newBlocks = document.createElement("div");
-
-    newBlocks.className = "block";
-
-    blockConteiner.append(newBlocks);
-
-    const block = $(".block");
-
-    setTimeout(() => {
-      $(block).css("transform", "translate(5px,5px)");
-    }, duration * i);
-  }
-});
-
-// random animation
-
-let multiple = 0;
-
-const randomAnimation = () => {
-  const block = $(".block");
-  if (numberArray.length === numberBlocks) return;
-
-  let randomNumber = Math.floor(Math.random() * numberBlocks);
-
-  for (let i = 0; i < numberArray.length; i++) {
-    multiple += 0.8 / numberBlocks;
-    setTimeout(() => {
-      $(block[randomNumber]).css("transform", "translate(100px,100px)");
-    }, 10 * multiple);
-
-    if (numberArray[i] === randomNumber) {
-      return randomAnimation();
-    }
-  }
-
-  numberArray.push(randomNumber);
-
-  if (numberArray.length < numberBlocks) return randomAnimation();
-};
-
-$("#random-animation-btn").on("click", () => {
-  numberArray.length = 0;
-  randomAnimation();
-});
-
-//--------------------------------------------------------
-let howMany;
-let HighestNumber;
-const randomNumbersArray = [];
-let randomNumber;
-
-$(".multi-multi-input,.block-inputs").focusin(function() {
-  $(this)
-    .prev()
-    .addClass("active");
-});
-
-$(".multi-multi-input,.block-inputs").focusout(function() {
-  if ($(this).val() === "") {
-    $(this)
-      .prev()
-      .removeClass("active");
-  }
-});
-
-$("#show-count").click(() => {
-  howMany = $("#how-many").val();
-  HighestNumber = $("#highest-number").val();
-  randomNumbersArray.length = 0;
-  $(".ball-conteiner").html("");
-  createBalls();
-});
-
-const createBalls = () => {
-  if (randomNumbersArray.length >= howMany) return;
-  randomNumber = Math.floor(Math.random() * HighestNumber + 1);
-
-  for (i = 0; i < howMany; i++) {
-    if (randomNumbersArray[i] === randomNumber) return createBalls();
-    else if (randomNumbersArray.length >= howMany) break;
-  }
-  randomNumbersArray.push(randomNumber);
-
-  if (randomNumbersArray.length >= howMany) {
-    randomNumbersArray
-      .sort((a, b) => a - b)
-      .map(n => {
-        const div = document.createElement("div");
-        div.className = "ball";
-        $(div).text(n);
-
-        $(".ball-conteiner").append(div);
-
-        animateBalls();
-      });
-    return;
-  } else return createBalls();
-};
-
-const animateBalls = () => {
-  const ball = $(".ball");
-
-  $(ball).each((i, el) => {
-    setTimeout(() => {
-      $(el).css({
-        transform: "translateY(0)scale(1)"
-      });
-    }, 100 * i);
-  });
-};
-
 //game tic tac toe
 let columnTile = 3;
 let rowTile = 3;
@@ -138,23 +5,31 @@ let numberTiles = 9;
 const tilesConteiner = $(".tiles-conteiner");
 let tiles;
 let winningPoints = 3;
+const arrayOfAnimatedTiles = [];
 
-$(".game-mode-options-btn").click(function() {
+$(".game-mode-options-btn").click(function () {
   columnTile = parseFloat($(this).val());
   rowTile = columnTile;
   numberTiles = rowTile * columnTile;
   columnTile === 3 ? (winningPoints = 3) : (winningPoints = 4);
+
+  $(".game-mode-options-btn").removeClass("game-mode-options-btn-active");
+  $(this).addClass("game-mode-options-btn-active");
 });
 
 $(".start-game").click(() => {
+  arrayOfAnimatedTiles.length = 0;
   $(".start-game-view ").addClass("hide");
+  $(".back-btn").css("transform", "scale(1)");
+  $(".tiles-conteiner").css("pointer-events", "none");
   createTiles();
 });
+const duration = 50;
 
 const createTiles = () => {
-  $("#back-btn").css("display", "block");
   for (let i = 1; i <= numberTiles; i++) {
     const tile = document.createElement("div");
+
     tile.className = "tile";
     $(tile).css("float", "left");
     $(tile).css("width", 100 / columnTile + "%");
@@ -163,24 +38,60 @@ const createTiles = () => {
 
     tilesConteiner.append(tile);
   }
+  const randomAnimation = Math.floor(Math.random() * 2);
 
   tiles = $(".tile");
   tiles.each((i, el) => {
     $(el).on("click", insertSign);
-
-    setTimeout(() => {
-      $(el).addClass("tile-show");
-    }, 50 * i);
-
-    $(".tiles-conteiner").css("pointer-events", "all");
+    $(el).on("mouseover", animateOnHover);
+    $(el).on("mouseleave", animateOnLeave);
+    if (randomAnimation === 0) {
+      setTimeout(() => {
+        $(el).addClass("tile-show");
+      }, duration * i);
+    } else randomTileAnimation();
   });
+
+  setTimeout(() => {
+    $(".tiles-conteiner").css("pointer-events", "all");
+  }, duration * numberTiles);
 };
+
+function animateOnHover() {
+  $(this).children().css("transform", "scale(1.1)rotate(45deg)");
+}
+
+function animateOnLeave() {
+  $(this).children().css("transform", "scale(1.0)rotate(45deg)");
+}
+
+const randomTileAnimation = () => {
+  const randomTile = Math.floor(Math.random() * numberTiles);
+
+  for (let i = 0; i < arrayOfAnimatedTiles.length; i++) {
+    if (arrayOfAnimatedTiles[i] === randomTile) return randomTileAnimation();
+  }
+  arrayOfAnimatedTiles.push(randomTile);
+
+  if (arrayOfAnimatedTiles.length >= numberTiles) {
+
+    $(arrayOfAnimatedTiles).each((i, el) => {
+      setTimeout(() => {
+        $(tiles[el]).addClass("tile-show");
+      }, duration * i);
+    })
+    return
+  };
+}
 
 let whatSign = true;
 let player1Points = 0;
 let player2Points = 0;
 let player1Win = null;
+let player1FinalPoints = 0;
+let player2FinalPoints = 0;
 let array = [];
+let clickedElements = 0;
 
 function insertSign() {
   if ($(this).html() !== "") return;
@@ -188,17 +99,27 @@ function insertSign() {
   const div = document.createElement("div");
   div.className = whatSign ? "sign circle" : "sign cross";
   $(this).attr("data-type", whatSign);
-  whatSign = !whatSign;
+
 
   $(this).append(div);
+  /* create Inside circle */
+  if (whatSign) {
+    const insideCircle = document.createElement("span");
+    insideCircle.className = "inside-circle";
 
-  const insideCircle = document.createElement("span");
-  insideCircle.className = "inside-circle";
+    $(this)
+      .children()
+      .append(insideCircle);
+  } else {
+    /*create another line to make cross  */
+    const line = document.createElement("span");
+    line.className = "cross-line";
 
-  $(this)
-    .children()
-    .append(insideCircle);
-
+    $(this)
+      .children()
+      .append(line);
+  }
+  whatSign = !whatSign;
   setTimeout(() => {
     $(this)
       .children()
@@ -206,7 +127,8 @@ function insertSign() {
 
     $(".inside-circle").addClass("inside-circle-show");
   }, 10);
-  checkPicks();
+
+  array.length = 0;
   for (let i = 0; i < tiles.length; i++) {
     array.push($(tiles[i]).attr("data-type"));
   }
@@ -214,28 +136,30 @@ function insertSign() {
   clickedElements++;
   player1Win = null;
 
+  /*check in row*/
   for (let i = 0; i <= columnTile; i++) {
     grid(i * columnTile + columnTile - 1, columnTile * i, 1);
   }
-
+  /*check in column*/
   for (let i = 0; i <= columnTile; i++) {
     grid(columnTile * columnTile - 1, i, columnTile);
   }
 
-
-  grid(columnTile * (columnTile - 1), columnTile - 1, columnTile - 1);
-  grid(columnTile * columnTile - 1, 0, columnTile + 1);
+  /*check across*/
+  if (columnTile === 5) {
+    for (let i = 1; i <= 2; i++) {
+      grid(columnTile * (columnTile - i), columnTile - i, columnTile - 1);
+      grid(columnTile * columnTile - i, i - 1, columnTile + 1);
+    }
+  } else {
+    grid(columnTile * (columnTile - 1), columnTile - 1, columnTile - 1);
+    grid(columnTile * columnTile - 1, 0, columnTile + 1);
+  }
 
   if (player1Win === null && clickedElements === numberTiles) {
-    return result("Remis");
+    return result(`<span class="player-name">Remis</span>`);
   }
 }
-
-let clickedElements = 0;
-
-const checkPicks = () => {
-  array.length = 0;
-};
 
 const grid = (loopRepeat, satrtLoop, interator) => {
   player1Points = 0;
@@ -247,6 +171,7 @@ const grid = (loopRepeat, satrtLoop, interator) => {
       player1Points++;
       if (player1Points === winningPoints) {
         player1Win = false;
+        player1FinalPoints++;
         return result(`<span class="player-name">Player 1</span> wygrywa.`);
       }
     } else if (array[i] === "false") {
@@ -254,6 +179,7 @@ const grid = (loopRepeat, satrtLoop, interator) => {
       player2Points++;
       if (player2Points === winningPoints) {
         player1Win = true;
+        player2FinalPoints++;
         return result(`<span class="player-name">Player 2</span> wygrywa.`);
       }
     } else if (array[i] === "empty") {
@@ -264,17 +190,26 @@ const grid = (loopRepeat, satrtLoop, interator) => {
 };
 
 const result = winner => {
+  whatSign = true;
   $(".tiles-conteiner").css("pointer-events", "none");
-  $("#back-btn").css("display", "none");
+  $(".back-btn").css("top", "0px");
 
   $(".result").addClass("game-over");
   $(".end-game-result").html(
-    `<p class="game-over-text">Rezultat:${winner}</p>`
+    `<p class="game-over-text">Rezultat:${winner}</p>
+    <p>Player1: <span class="points">${player1FinalPoints}pkt</span></p>
+    <p>Player2: <span class="points">${player2FinalPoints}pkt</span></p>`
   );
 };
 
+$(".reset-points").click(() => {
+  player1FinalPoints = 0;
+  player2FinalPoints = 0;
+})
+
 $(".next-game").click(() => {
   clickedElements = 0;
+  $(".back-btn").css("top", "-55px")
   $(".result").removeClass("game-over");
   tilesConteiner.html("");
   createTiles();
@@ -285,6 +220,10 @@ const backBtn = $(".back-btn");
 $(backBtn).click(() => {
   clickedElements = 0;
   tilesConteiner.html("");
+  $(".back-btn").css({
+    transform: "scale(0)",
+    top: -55
+  })
   $(".start-game-view").removeClass("hide");
   $(".result").removeClass("game-over");
 });
