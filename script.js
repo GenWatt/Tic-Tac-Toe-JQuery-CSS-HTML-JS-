@@ -9,7 +9,8 @@ $(window).ready(() => {
   const arrayOfAnimatedTiles = [];
   const board = $(".board");
 
-  $(".game-mode-options-btn").click(function () {
+  //game mode btn
+  $(".game-mode-options-btn").click(function() {
     columnTile = parseFloat($(this).val());
     rowTile = columnTile;
     numberTiles = rowTile * columnTile;
@@ -19,16 +20,17 @@ $(window).ready(() => {
     $(this).addClass("game-mode-options-btn-active");
   });
   //background animation
-  const boardHeight = $(board).height();
-  const boardWidth = $(board).width();
+  let boardHeight = $(board).height();
+  let boardWidth = $(board).width();
 
   const backgroundAnimation = () => {
     for (let i = 0; i < 5; i++) {
+      //create random size && position&& elements
       let randomSize = Math.floor(Math.random() * 40);
-      randomSize <= 20 ? randomSize += 10 : null;
+      randomSize <= 20 ? (randomSize += 10) : null;
 
       const randomLeftPos = Math.floor(Math.random() * boardHeight);
-      const randomTopPos = Math.floor(Math.random() * boardWidth)
+      const randomTopPos = Math.floor(Math.random() * boardWidth);
       const createBackgroundCircle = document.createElement("span");
 
       createBackgroundCircle.className = "background-circle";
@@ -37,78 +39,142 @@ $(window).ready(() => {
         height: `${randomSize}px`,
         left: `${randomLeftPos}px`,
         top: `${randomTopPos}px`
-      })
+      });
 
       board.append(createBackgroundCircle);
     }
+    //create elements
     for (let i = 0; i < 5; i++) {
       let randomSize = Math.floor(Math.random() * 60);
-      randomSize <= 30 ? randomSize += 10 : null;
-      const randomLeftPos = Math.floor(Math.random() * boardHeight);
-      const randomTopPos = Math.floor(Math.random() * boardWidth);
+      randomSize <= 30 ? (randomSize += 10) : null;
+      let randomLeftPos = Math.floor(Math.random() * boardHeight);
+      let randomTopPos = Math.floor(Math.random() * boardWidth);
       const createBackgroundCross = document.createElement("span");
+
+      randomTopPos >= boardHeight - 60
+        ? (randomTopPos = randomTopPos - randomSize)
+        : null;
+      randomLeftPos >= boardWidth - 60
+        ? (randomLeftPos = randomLeftPos - randomSize)
+        : null;
+      randomTopPos <= boardHeight - 60
+        ? (randomTopPos = randomTopPos + randomSize)
+        : null;
+      randomLeftPos <= boardWidth - 60
+        ? (randomLeftPos = randomLeftPos + randomSize)
+        : null;
 
       createBackgroundCross.className = "background-cross";
       $(createBackgroundCross).css({
-        width: `${randomSize/3}px`,
+        width: `${randomSize / 4}px`,
         height: `${randomSize}px`,
         left: `${randomLeftPos}px`,
         top: `${randomTopPos}px`
-      })
+      });
       board.append(createBackgroundCross);
 
       const bgCross = $(".background-cross");
       const createBackgroundCross2 = document.createElement("span");
       createBackgroundCross2.className = "bg-cross-2";
+
       $(createBackgroundCross2).css({
-        width: `${randomSize/4}px`,
-        height: `${randomSize}px`,
-      })
+        width: `${randomSize / 4}px`,
+        height: `${randomSize}px`
+      });
       $(bgCross[i]).append(createBackgroundCross2);
     }
-  }
+  };
 
   backgroundAnimation();
-
+  //create circle, generate circle position to animate
   const backgroundCircleElements = $(".background-circle");
   const backgroundCrossElements = $(".background-cross");
   let timerCircle;
-  let timerCross
+  let timerCross;
 
   const randomMoveCircleAnimation = () => {
     timerCircle = setInterval(() => {
-
       backgroundCircleElements.each((i, el) => {
-        const randomLeftPosToMove = Math.floor(Math.random() * boardHeight);
-        const randomTopPosToMove = Math.floor(Math.random() * boardWidth);
+        const elWidth = $(el).width();
+        const elHeight = $(el).height();
+        let randomLeftPosToMove = Math.floor(Math.random() * boardWidth);
+        let randomTopPosToMove = Math.floor(Math.random() * boardHeight);
 
-        $(el).animate({
-          left: `${randomLeftPosToMove}px`,
-          top: `${randomTopPosToMove}px`
-        }, randomTopPosToMove * 10)
-      })
-    }, 3500);
-  }
+        randomTopPosToMove >= boardHeight - 60
+          ? (randomTopPosToMove = randomTopPosToMove - elHeight)
+          : null;
+        randomLeftPosToMove >= boardWidth - 60
+          ? (randomLeftPosToMove = randomLeftPosToMove - elWidth)
+          : null;
+        randomTopPosToMove <= boardHeight - 60
+          ? (randomTopPosToMove = randomTopPosToMove + elHeight)
+          : null;
+        randomLeftPosToMove <= boardWidth - 60
+          ? (randomLeftPosToMove = randomLeftPosToMove + elWidth)
+          : null;
+
+        $(el).animate(
+          {
+            left: `${randomLeftPosToMove}px`,
+            top: `${randomTopPosToMove}px`
+          },
+          randomTopPosToMove * 10
+        );
+      });
+    }, 4000);
+  };
 
   randomMoveCircleAnimation();
-
+  //genarate cross position to animate
   const randomMoveCrossAnimation = () => {
     timerCross = setInterval(() => {
-
       backgroundCrossElements.each((i, el) => {
-        const randomLeftPosToMove = Math.floor(Math.random() * boardHeight);
-        const randomTopPosToMove = Math.floor(Math.random() * boardWidth);
+        const elWidth = $(el).width();
+        const elHeight = $(el).height();
+        let randomLeftPosToMove = Math.floor(Math.random() * boardWidth);
+        let randomTopPosToMove = Math.floor(Math.random() * boardHeight);
 
-        $(el).animate({
-          left: `${randomLeftPosToMove}px`,
-          top: `${randomTopPosToMove}px`
-        }, randomTopPosToMove * 10)
-      })
-    }, 7000);
-  }
+        randomTopPosToMove >= boardHeight - 60
+          ? (randomTopPosToMove = randomTopPosToMove - elHeight)
+          : null;
+        randomLeftPosToMove >= boardWidth - 60
+          ? (randomLeftPosToMove = randomLeftPosToMove - elWidth)
+          : null;
+        randomTopPosToMove <= boardHeight - 60
+          ? (randomTopPosToMove = randomTopPosToMove + elHeight)
+          : null;
+        randomLeftPosToMove <= boardWidth - 60
+          ? (randomLeftPosToMove = randomLeftPosToMove + elWidth)
+          : null;
+
+        $(el).animate(
+          {
+            left: `${randomLeftPosToMove}px`,
+            top: `${randomTopPosToMove}px`
+          },
+          randomTopPosToMove * 10
+        );
+      });
+    }, 4000);
+  };
 
   randomMoveCrossAnimation();
+  //change parameters when resize
+  $(window).resize(() => {
+    boardWidth = $(board).width();
+    boardHeight = $(board).height();
 
+    backgroundCircleElements.css({
+      top: boardWidth / 2,
+      left: boardHeight / 2
+    });
+
+    backgroundCrossElements.css({
+      top: boardWidth / 2,
+      left: boardHeight / 2
+    });
+  });
+  //start game btn
   $(".start-game").click(() => {
     backgroundCircleElements.hide();
     backgroundCrossElements.hide();
@@ -123,7 +189,7 @@ $(window).ready(() => {
   });
 
   const duration = 50;
-
+  //create tiles to game
   const createTiles = () => {
     for (let i = 1; i <= numberTiles; i++) {
       const tile = document.createElement("div");
@@ -137,12 +203,17 @@ $(window).ready(() => {
       tilesConteiner.append(tile);
     }
     const randomAnimation = Math.floor(Math.random() * 2);
-
+    //tiles listeners
     tiles = $(".tile");
     tiles.each((i, el) => {
       $(el).on("click", insertSign);
-      $(el).on("mouseover", animateOnHover);
+      $(el).hover(function() {
+        $(this)
+          .children()
+          .css("transform", "scale(1.1)rotate(45deg)");
+      });
       $(el).on("mouseleave", animateOnLeave);
+
       if (randomAnimation === 0) {
         setTimeout(() => {
           $(el).addClass("tile-show");
@@ -154,15 +225,15 @@ $(window).ready(() => {
       $(".tiles-conteiner").css("pointer-events", "all");
     }, duration * numberTiles);
   };
-
-  function animateOnHover() {
-    $(this).children().css("transform", "scale(1.1)rotate(45deg)");
-  }
+  //tiles effects
 
   function animateOnLeave() {
-    $(this).children().css("transform", "scale(1.0)rotate(45deg)");
+    $(this)
+      .children()
+      .css("transform", "scale(1.0)rotate(45deg)");
   }
 
+  //tile random animation
   const randomTileAnimation = () => {
     const randomTile = Math.floor(Math.random() * numberTiles);
 
@@ -172,15 +243,14 @@ $(window).ready(() => {
     arrayOfAnimatedTiles.push(randomTile);
 
     if (arrayOfAnimatedTiles.length >= numberTiles) {
-
       $(arrayOfAnimatedTiles).each((i, el) => {
         setTimeout(() => {
           $(tiles[el]).addClass("tile-show");
         }, duration * i);
-      })
-      return
-    };
-  }
+      });
+      return;
+    }
+  };
 
   let whatSign = true;
   let player1Points = 0;
@@ -190,14 +260,13 @@ $(window).ready(() => {
   let player2FinalPoints = 0;
   let array = [];
   let clickedElements = 0;
-
+  // create sign in tile
   function insertSign() {
     if ($(this).html() !== "") return;
 
     const div = document.createElement("div");
     div.className = whatSign ? "sign circle" : "sign cross";
     $(this).attr("data-type", whatSign);
-
 
     $(this).append(div);
     /* create Inside circle */
@@ -218,6 +287,7 @@ $(window).ready(() => {
         .append(line);
     }
     whatSign = !whatSign;
+    //animation onShow
     setTimeout(() => {
       $(this)
         .children()
@@ -236,40 +306,52 @@ $(window).ready(() => {
 
     /*check in row*/
     for (let i = 0; i <= columnTile; i++) {
-      grid(i * columnTile + columnTile - 1, columnTile * i, 1);
+      checkVariants(i * columnTile + columnTile - 1, columnTile * i, 1);
     }
     /*check in column*/
     for (let i = 0; i <= columnTile; i++) {
-      grid(columnTile * columnTile - 1, i, columnTile);
+      checkVariants(columnTile * columnTile - 1, i, columnTile);
     }
 
-    /*check across*/
+    /*check diagonal*/
     if (columnTile === 5) {
       for (let i = 0; i <= columnTile * 2; i += columnTile) {
-        grid(columnTile * columnTile - i / columnTile, i, columnTile + 1);
+        checkVariants(
+          columnTile * columnTile - i / columnTile,
+          i,
+          columnTile + 1
+        );
       }
       for (let i = 1; i <= 2; i++) {
-        grid(columnTile * (columnTile - 1) + i, columnTile * i - 1, columnTile - 1);
+        checkVariants(
+          columnTile * (columnTile - 1) + i,
+          columnTile * i - 1,
+          columnTile - 1
+        );
       }
       for (let i = 1; i <= columnTile; i += 2) {
-        grid(columnTile * (columnTile - 1) + i, i, columnTile + 2 - i);
+        checkVariants(columnTile * (columnTile - 1) + i, i, columnTile + 2 - i);
       }
-
     } else {
-      grid(columnTile * (columnTile - 1), columnTile - 1, columnTile - 1);
-      grid(columnTile * columnTile - 1, 0, columnTile + 1);
+      checkVariants(
+        columnTile * (columnTile - 1),
+        columnTile - 1,
+        columnTile - 1
+      );
+      checkVariants(columnTile * columnTile - 1, 0, columnTile + 1);
     }
-
+    //draw
     if (player1Win === null && clickedElements === numberTiles) {
       return result(`<span class="player-name">Remis</span>`);
     }
   }
 
-  const grid = (loopRepeat, satrtLoop, interator) => {
+  const checkVariants = (loopRepeat, satrtLoop, interator) => {
     player1Points = 0;
     player2Points = 0;
 
-    for (i = satrtLoop; i <= loopRepeat; i += interator) {
+    for (let i = satrtLoop; i <= loopRepeat; i += interator) {
+      //circle win
       if (array[i] === "true") {
         player2Points = 0;
         player1Points++;
@@ -278,7 +360,8 @@ $(window).ready(() => {
           player1FinalPoints++;
           return result(`<span class="player-name">Player 1</span> wygrywa.`);
         }
-      } else if (array[i] === "false") {
+      } // cross win
+      else if (array[i] === "false") {
         player1Points = 0;
         player2Points++;
         if (player2Points === winningPoints) {
@@ -292,7 +375,7 @@ $(window).ready(() => {
       }
     }
   };
-
+  // result function with massages and points
   const result = winner => {
     whatSign = true;
     $(".tiles-conteiner").css("pointer-events", "none");
@@ -305,23 +388,23 @@ $(window).ready(() => {
     <p>Player2: <span class="points">${player2FinalPoints}pkt</span></p>`
     );
   };
-
+  //reset points
   $(".reset-points").click(() => {
     player1FinalPoints = 0;
     player2FinalPoints = 0;
-  })
-
+  });
+  // play another game
   $(".next-game").click(() => {
     clickedElements = 0;
     arrayOfAnimatedTiles.length = 0;
-    $(".back-btn").css("top", "-55px")
+    $(".back-btn").css("top", "-55px");
     $(".result").removeClass("game-over");
     tilesConteiner.html("");
     createTiles();
   });
 
   const backBtn = $(".back-btn");
-
+  // back to menu
   $(backBtn).click(() => {
     clickedElements = 0;
     backgroundCircleElements.show();
@@ -331,10 +414,10 @@ $(window).ready(() => {
     $(".back-btn").css({
       transform: "scale(0)",
       top: -55
-    })
+    });
     $(".start-game-view").removeClass("hide");
     $(".result").removeClass("game-over");
     randomMoveCircleAnimation();
     randomMoveCrossAnimation();
   });
-})
+});
