@@ -2,13 +2,14 @@
   box-sizing: border-box;
 }
 
+html,
 body {
-  height: 100vh;
   background-color: rgb(49, 47, 47);
   color: cornsilk;
   font-size: 18px;
   width: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 :focus {
@@ -29,14 +30,15 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: -5px -5px 10px rgb(255, 255, 255, 0.3), 5px 5px 10px rgba(0, 0, 0, 1);
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
+  box-shadow: -5px -5px 10px rgb(255, 255, 255, 0.3),
+    5px 5px 10px rgba(0, 0, 0, 1);
   z-index: 11;
 }
-
+/*Menu view*/
 .start-game-view {
   color: rgb(219, 213, 213);
   position: absolute;
@@ -51,15 +53,15 @@ button {
   -moz-transition: transform 0.4s ease-out;
   -ms-transition: transform 0.4s ease-out;
   -o-transition: transform 0.4s ease-out;
+  transform-origin: top left;
 }
-
+/*Menu hide*/
 .hide {
   transform: scale(0);
   -webkit-transform: scale(0);
   -moz-transform: scale(0);
   -ms-transform: scale(0);
   -o-transform: scale(0);
-  transform-origin: top left;
 }
 
 .start-game-view h2 {
@@ -69,7 +71,7 @@ button {
 .inputs {
   position: relative;
 }
-
+/*game modebuttons*/
 .game-mode-options {
   width: 100%;
   display: flex;
@@ -112,7 +114,7 @@ button {
 .game-mode-options-btn:last-child {
   margin-left: 20px;
 }
-
+/*start game button*/
 .start-game {
   margin-top: 100px;
   width: 130px;
@@ -142,7 +144,7 @@ button {
   box-shadow: inset -4px -4px 10px rgb(0, 0, 0, 0.7),
     inset 4px 4px 10px rgb(255, 255, 255, 0.7);
 }
-
+/*circle && cross in the background on menu view*/
 .background-circle {
   position: absolute;
   border-radius: 50%;
@@ -154,36 +156,44 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 3px 3px 7px rgba(255, 255, 255, 0.2), -3px -3px 7px rgba(0, 0, 0, 1);
-  transition-property: top, left;
-  transition-timing-function: ease-in-out;
+  opacity: 0.4;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    3px 3px 7px rgba(255, 255, 255, 0.2), -3px -3px 7px rgba(0, 0, 0, 1);
   pointer-events: none;
 }
 
 .background-cross {
   background-color: rgb(0, 0, 255);
   position: absolute;
-  box-shadow: -3px -3px 15px rgba(255, 255, 255, 0.2), 3px 3px 15px rgba(0, 0, 0, 0.8), inset -2px -2px 7px rgba(255, 255, 255, 0.1), inset 3px 3px 7px rgba(0, 0, 0, 0.5);
   pointer-events: none;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -ms-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  box-shadow: -3px -3px 15px rgba(255, 255, 255, 0.2),
+    3px 3px 15px rgba(0, 0, 0, 0.8),
+    inset -2px -2px 7px rgba(255, 255, 255, 0.1),
+    inset 3px 3px 7px rgba(0, 0, 0, 0.5);
+  opacity: 0.4;
 }
 
 .bg-cross-2 {
   background-color: rgb(0, 0, 255);
   position: absolute;
-  box-shadow: -3px -3px 15px rgba(255, 255, 255, 0.2), 3px 3px 15px rgba(0, 0, 0, 0.8), inset -2px -2px 7px rgba(255, 255, 255, 0.1), inset 3px 3px 7px rgba(0, 0, 0, 0.5);
   pointer-events: none;
-  transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  box-shadow: -3px -3px 15px rgba(255, 255, 255, 0.2),
+    3px 3px 15px rgba(0, 0, 0, 0.8),
+    inset -2px -2px 7px rgba(255, 255, 255, 0.1),
+    inset 3px 3px 7px rgba(0, 0, 0, 0.5);
+  opacity: 0.4;
 }
-
+/*Tiles styles*/
 .tiles-conteiner {
   width: 100%;
   height: 100%;
@@ -229,7 +239,7 @@ button {
   -ms-transform: translateY(0) scale(1);
   -o-transform: translateY(0) scale(1);
 }
-
+/*circle style*/
 .circle {
   width: 50%;
   height: 50%;
@@ -326,7 +336,7 @@ button {
     -o-transform: scale(1);
   }
 }
-
+/*cross style*/
 .cross {
   width: 10%;
   height: 50%;
@@ -387,7 +397,7 @@ button {
   -ms-transform: scaleY(1) rotate(-45deg);
   -o-transform: scaleY(1) rotate(-45deg);
 }
-
+/*final result show*/
 .result {
   width: 100%;
   height: 100%;
@@ -435,7 +445,7 @@ button {
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
 }
-
+/*back to menu btn*/
 .back-btn {
   width: 40px;
   height: 40px;
@@ -538,7 +548,7 @@ button {
   -ms-transform: rotate(45deg) scaleX(1);
   -o-transform: rotate(45deg) scaleX(1);
 }
-
+/*result text*/
 .game-over-text {
   font-size: 2em;
 }
@@ -571,7 +581,7 @@ button {
   box-shadow: -3px -3px 7px rgba(255, 255, 255, 0.1),
     3px 3px 7px rgba(0, 0, 0, 0.7);
 }
-
+/*reset points btn*/
 .reset-points {
   top: 65%;
   font-size: 0.9em;
@@ -586,28 +596,11 @@ button {
   box-shadow: inset -3px -3px 7px rgba(255, 255, 255, 0.1),
     inset 3px 3px 7px rgba(0, 0, 0, 0.7);
 }
-
+/*responisve*/
 @media screen and (max-width: 800px) {
-  .conteiner {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .tic-tac-toe {
-    display: flex;
-    justify-content: center;
-  }
-
   .board {
     width: 400px;
     height: 450px;
-    margin-left: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
   }
 
   .start-game {
